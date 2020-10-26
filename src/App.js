@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {route} from './router/index';
+import {Route, Switch} from 'react-router-dom';
+import {Layout} from 'antd';
+import Header from './component/header';
+import Footer from './component/footer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return < Layout className="page">
+        <Header/>
+        <Layout.Content>
+            <div className="wrap">
+                <Switch>
+                    {route.map((itemData, index) => {
+                        return (<Route
+                            key={index}
+                            path={itemData.path}
+                            exact={itemData.exact}
+                            render={(props) => {
+                                // 这里可以添加路由信息 eg:props.username = 'pika'
+                                return itemData.render(props);
+                            }}/>);
+                    })}
+                </Switch>
+            </div>
+        </Layout.Content>
+        <Footer/>
+    </Layout>;
 }
 
 export default App;
